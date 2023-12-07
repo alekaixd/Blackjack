@@ -11,6 +11,7 @@ public class Dealer : MonoBehaviour
     public Deck deckScript;
     public List<Hand> playerHands;
     public Hand dealerHand;
+    public GameObject[] playerCardPositions;
 
     // Start is called before the first frame update
     void Start()
@@ -36,6 +37,12 @@ public class Dealer : MonoBehaviour
             {
                 playerHands[i] = DealCards(playerHands[i], false);
             }
+        }
+
+        if (Input.GetKeyDown(KeyCode.LeftShift))
+        {
+            SpawnCard(playerCardPositions[0], deck[13]);
+            MoveCardPosition(0);
         }
     }
 
@@ -82,5 +89,18 @@ public class Dealer : MonoBehaviour
         }
 
         return dealHand;
+    }
+
+    public void SpawnCard(GameObject playerHandPos, Card card)
+    {
+        GameObject cardObject = deckScript.cardObjects[card.index];
+        Instantiate(cardObject, playerHandPos.transform.position, Quaternion.identity);
+    }
+
+    private void MoveCardPosition(int playerNum)
+    {
+        Vector3 pos = playerCardPositions[playerNum].transform.position;
+        pos = new Vector3(pos.x + 0.1f, pos.y - 0.1f, pos.z);
+        playerCardPositions[playerNum].transform.position = pos;
     }
 }
