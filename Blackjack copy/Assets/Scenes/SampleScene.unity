@@ -2131,6 +2131,37 @@ Transform:
   m_Father: {fileID: 1889770161}
   m_RootOrder: 39
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!1 &770369074
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 770369075}
+  m_Layer: 0
+  m_Name: DealerHandPosition
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &770369075
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 770369074}
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalPosition: {x: 0.63, y: -1.73, z: -0.03380959}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 1349087908}
+  m_RootOrder: 5
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &834807364
 GameObject:
   m_ObjectHideFlags: 0
@@ -3919,6 +3950,7 @@ Transform:
   - {fileID: 1427406947}
   - {fileID: 1547134652}
   - {fileID: 210332291}
+  - {fileID: 770369075}
   m_Father: {fileID: 0}
   m_RootOrder: 10
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
@@ -4336,6 +4368,7 @@ MonoBehaviour:
   players: 3
   deckScript: {fileID: 736600144}
   playerCardPositions:
+  - {fileID: 770369074}
   - {fileID: 157921839}
   - {fileID: 1324555273}
   - {fileID: 1427406946}
