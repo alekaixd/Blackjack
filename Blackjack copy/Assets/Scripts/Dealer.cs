@@ -29,25 +29,45 @@ public class Dealer : MonoBehaviour
     {
         if (Input.GetKeyDown(KeyCode.Space))
         {
-            dealerHand = DealCards(dealerHand, true);
+            dealerHand = DealDealerCards(dealerHand);
         }
         if (Input.GetKeyDown(KeyCode.D))
         {
             for (int i = 0; i < playerHands.Count; i++)
             {
-                playerHands[i] = DealCards(playerHands[i], false);
+                playerHands[i] = DealPlayerCards(playerHands[i], i);
             }
         }
 
         if (Input.GetKeyDown(KeyCode.LeftShift))
         {
-            SpawnCard(playerCardPositions[0], deck[13]);
-            MoveCardPosition(0);
+            SpawnCard(0, deck[13]);
         }
     }
 
+    public Hand DealDealerCards(Hand dealerHand)
+    {
+        if (dealerHand == null)
+        {
+            dealerHand = new Hand();
+        }
+        if (dealerHand.cards.Count <= 1)
+        {
+            AddCardToHand(dealerHand, 0);
+            AddCardToHand(dealerHand, 0);
+            Debug.Log(dealerHand);
+            Debug.Log("Hand value is: " + dealerHand.CalculateValue());
+        }
+        else if (dealerHand.CalculateValue() < dealerStayValue)
+        {
+            AddCardToHand(dealerHand, 0);
+            Debug.Log(dealerHand);
+            Debug.Log("Hand value is: " + dealerHand.CalculateValue());
+        }
+        return dealerHand;
+    }
 
-    public Hand DealCards(Hand dealHand, bool isDealerHand)
+    public Hand DealPlayerCards(Hand dealHand, int playerHandIndex)
     {
         if (dealHand == null)
         {
@@ -55,31 +75,14 @@ public class Dealer : MonoBehaviour
         }
         if (dealHand.cards.Count <= 1)
         {
-            Card cardToDeal = deck[deck.Count - 1];
-            dealHand.AddCard(cardToDeal);
-            deck.Remove(cardToDeal); 
-            cardToDeal = deck[deck.Count - 1];
-            dealHand.AddCard(cardToDeal);
-            deck.Remove(cardToDeal);
+            AddCardToHand(dealHand, playerHandIndex);// paska ei toimi
+            AddCardToHand(dealHand, playerHandIndex);
             Debug.Log(dealHand);
             Debug.Log("Hand value is: " + dealHand.CalculateValue());
         }
-        else if (isDealerHand)
+        else if (dealHand.CalculateValue() < 21)
         {
-            if (dealHand.CalculateValue() < dealerStayValue)
-            {
-                Card cardToDeal = deck[deck.Count - 1];
-                dealHand.AddCard(cardToDeal);
-                deck.Remove(cardToDeal);
-                Debug.Log(dealHand);
-                Debug.Log("Hand value is: " + dealHand.CalculateValue());
-            }
-        }
-        else if (!isDealerHand && dealHand.CalculateValue() < 21)
-        {
-            Card cardToDeal = deck[deck.Count - 1];
-            dealHand.AddCard(cardToDeal);
-            deck.Remove(cardToDeal);
+            AddCardToHand(dealHand, 1);
             Debug.Log(dealHand);
             Debug.Log("Hand value is: " + dealHand.CalculateValue());
         }
@@ -91,10 +94,21 @@ public class Dealer : MonoBehaviour
         return dealHand;
     }
 
-    public void SpawnCard(GameObject playerHandPos, Card card)
+    public Hand AddCardToHand(Hand hand, int handPosIndex)
     {
+        Card cardToDeal = deck[deck.Count - 1];
+        hand.AddCard(cardToDeal);
+        deck.Remove(cardToDeal);
+        SpawnCard(handPosIndex, cardToDeal);
+        return hand;
+    }
+
+    public void SpawnCard(int handIndex, Card card)
+    {
+        GameObject playerHandPos = playerCardPositions[handIndex];
         GameObject cardObject = deckScript.cardObjects[card.index];
         Instantiate(cardObject, playerHandPos.transform.position, Quaternion.identity);
+        MoveCardPosition(handIndex);
     }
 
     private void MoveCardPosition(int playerNum)
